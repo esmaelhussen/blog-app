@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FaUser, FaLock } from "react-icons/fa";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -8,41 +10,97 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handle = (e) => {
+  const handle = async (e) => {
     e.preventDefault();
-    if (login(username, password)) nav("/");
-    else setError("Invalid credentials");
+    setLoading(true);
+    setError("");
+
+    setTimeout(() => {
+      if (login(username, password)) {
+        nav("/");
+      } else {
+        setError("Invalid credentials");
+      }
+      setLoading(false);
+    }, 1000);
   };
 
   return (
-    <div className="max-w-md mx-auto p-4">
-      <h1 className="text-xl font-bold mb-4">Login</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handle} className="space-y-4">
-        <input
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-          className="w-full border p-2"
-          required
-        />
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="Password"
-          className="w-full border p-2"
-          required
-        />
-        <button className="bg-blue-500 text-white px-4 py-2">Login</button>
-      </form>
-      <p className="mt-4">
-        Don't have an account?{" "}
-        <Link className="text-blue-500" to="/register">
-          Register
-        </Link>
-      </p>
-    </div>
+    <motion.div
+      className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-200 to-purple-200 p-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <motion.div
+        className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md"
+        initial={{ y: -50 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 100 }}
+      >
+        <h1 className="text-3xl font-bold text-center mb-6 text-purple-700">
+          Welcome Back 👋
+        </h1>
+
+        {error && (
+          <motion.p
+            className="text-red-600 mb-4 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {error}
+          </motion.p>
+        )}
+
+        <form onSubmit={handle} className="space-y-4">
+          <div className="relative">
+            <FaUser className="absolute left-3 top-3 text-gray-400" />
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+              required
+            />
+          </div>
+
+          <div className="relative">
+            <FaLock className="absolute left-3 top-3 text-gray-400" />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-2 px-4 rounded text-white font-semibold ${
+              loading
+                ? "bg-purple-300 cursor-not-allowed"
+                : "bg-purple-600 hover:bg-purple-700 transition"
+            }`}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+
+        <p className="mt-6 text-center text-gray-600">
+          Don't have an account?{" "}
+          <Link
+            to="/register"
+            className="text-purple-600 hover:underline font-medium"
+          >
+            Register
+          </Link>
+        </p>
+      </motion.div>
+    </motion.div>
   );
 }

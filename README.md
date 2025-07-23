@@ -36,13 +36,9 @@ This project helps learners understand:
 
 ## 🖼️ Screenshots
 
-### 📍 Homepage
+### 📍 Home page
 
 ![Posts](./screenshots/posts.png)
-
-### 📍 Create Post
-
-![Register ](./screenshots/register.png)
 
 ### 📍 Login Page
 

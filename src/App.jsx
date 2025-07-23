@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import AuthRoute from "./components/AuthRoute";
 import Home from "./pages/Home";
@@ -8,27 +8,62 @@ import MyPosts from "./pages/MyPosts";
 import PostView from "./pages/PostView";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
+import { FaSignOutAlt } from "react-icons/fa";
 
 function Navigation() {
   const { user, logout } = useContext(AuthContext);
+
+  const linkClass =
+    "text-gray-600 hover:text-purple-600 font-medium transition";
+
+  const activeClass = "text-purple-700 font-semibold";
+
   return (
-    <header className="p-4 bg-gray-100 flex justify-between items-center">
-      <Link to="/">Home</Link>
-      <nav className="space-x-4">
-        {user ? (
-          <>
-            <Link to="/my-posts">My Posts</Link>
-            <button onClick={logout} className="text-red-500">
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        )}
-      </nav>
+    <header className="bg-white shadow-md sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <Link to="/" className="text-2xl font-bold text-purple-700">
+          📰 Blogify
+        </Link>
+        <nav className="space-x-6">
+          {user ? (
+            <>
+              <NavLink
+                to="/my-posts"
+                className={({ isActive }) =>
+                  `${linkClass} ${isActive ? activeClass : ""}`
+                }
+              >
+                My Posts
+              </NavLink>
+              <button
+                onClick={logout}
+                className="inline-flex items-center gap-2 text-red-500 hover:text-red-600 font-medium transition"
+              >
+                <FaSignOutAlt /> Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  `${linkClass} ${isActive ? activeClass : ""}`
+                }
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/register"
+                className={({ isActive }) =>
+                  `${linkClass} ${isActive ? activeClass : ""}`
+                }
+              >
+                Register
+              </NavLink>
+            </>
+          )}
+        </nav>
+      </div>
     </header>
   );
 }
@@ -38,7 +73,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Navigation />
-        <main className="p-8">
+        <main className="p-4 sm:p-8">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
