@@ -28,14 +28,6 @@ A simple and modern blog system built using **React**, **Vite**, **Tailwind CSS*
 
 ---
 
-## 🛠 Installation
-
-```bash
-git clone https://github.com/esmaelhussen/blog-app.git
-cd blog-app
-npm install
-npm run dev
-
 
 ## 🖼️ Screenshots
 
@@ -46,3 +38,12 @@ npm run dev
 ### 📍 Login Page
 
 ![Login](./screenshots/login.png)
+
+## 🛠 Installation
+
+```bash
+git clone https://github.com/esmaelhussen/blog-app.git
+cd blog-app
+npm install
+npm run dev
+
