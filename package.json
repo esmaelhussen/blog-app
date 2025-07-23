@@ -1,6 +1,5 @@
 {
   "name": "package.json",
-  "homepage": "https://esmaelhussen.github.io/blog-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",

@@ -71,7 +71,7 @@ function Navigation() {
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter basename="/blog-app">
+      <BrowserRouter>
         <Navigation />
         <main className="p-4 sm:p-8">
           <Routes>
